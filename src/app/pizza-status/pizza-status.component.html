@@ -1,0 +1,11 @@
+<div>
+  <div>
+    <input type="text" placeholder="orderId" (keyup)="setOrderId($event)">  
+    <button (click)="getStatus()">
+      check status   
+    </button>
+  </div>
+  <div>
+    <label>{{PREFIX_STATUS}}: {{status}}</label>
+  </div>
+</div>
