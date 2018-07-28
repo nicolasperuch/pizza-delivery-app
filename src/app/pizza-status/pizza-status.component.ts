@@ -11,7 +11,7 @@ import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 })
 export class PizzaStatusComponent implements OnInit {
   
-  BASE_URL = '104.196.223.120:8080'
+  BASE_URL = 'http://localhost:8080'
 
   PREFIX_STATUS = 'Your pizza is'
   orderId = ''
@@ -30,14 +30,13 @@ export class PizzaStatusComponent implements OnInit {
   getStatus(): void{
     IntervalObservable.create(5000)
     .subscribe(() => {
-      this.http.get(this.buildUrl(), {responseType: 'json'})
+      this.http.get(this.buildUrl(), {responseType: 'text'})
                     .toPromise()
                     .then(data => {
-                      console.log(data)
                       this.status = data.toString(); 
                     })
                     .catch(data => {
-                      this.status = 'Down'
+                      this.status = 'Service Down'
                     });
     })
   }
