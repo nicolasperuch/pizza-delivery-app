@@ -1,0 +1,26 @@
+<div style="margin: 50px">
+
+    <input type="text" placeholder="Customer Name" (keyup)="setCustomerName($event)">  
+    
+    <select (change)="setFlavor($event)">
+        <option value="0">--All--</option>
+        <option *ngFor="let flavor of flavorList" value={{flavor}}>
+            {{flavor}}
+        </option>
+    </select>
+
+    <select (change)="setHasStuffedEdge($event)">
+        <option value="true">Yes! Please</option>
+        <option value="false">No, Thanks</option>
+    </select>
+    
+    <select (change)="setSize($event)">
+        <option value="p"> small </option>
+        <option value="m"> medium </option>
+        <option value="g"> large </option>
+    </select>
+    
+    <button (click)="sendRequest()">
+      Create Order
+    </button>
+</div>

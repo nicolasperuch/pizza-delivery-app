@@ -9,6 +9,7 @@ import { IntervalObservable } from "rxjs/observable/IntervalObservable";
   templateUrl: './pizza-status.component.html',
   styleUrls: ['./pizza-status.component.css']
 })
+
 export class PizzaStatusComponent implements OnInit {
   
   BASE_URL = 'http://localhost:8080'
