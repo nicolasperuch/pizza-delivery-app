@@ -3,7 +3,6 @@
     <input type="text" placeholder="Customer Name" (keyup)="setCustomerName($event)">  
     
     <select (change)="setFlavor($event)">
-        <option value="0">--All--</option>
         <option *ngFor="let flavor of flavorList" value={{flavor}}>
             {{flavor}}
         </option>

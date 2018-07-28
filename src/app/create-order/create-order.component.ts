@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FlavorService } from '../service/flavor.service';
+import { DataValidatorService } from '../service/data-validator.service';
 
 @Component({
   selector: 'app-create-order',
@@ -14,7 +15,8 @@ export class CreateOrderComponent implements OnInit {
   hasStuffedEdge = false;
   flavorList: String[] = [];
 
-  constructor(private flavorService: FlavorService) { }
+  constructor(private flavorService: FlavorService,
+              private validatorService: DataValidatorService) { }
 
   ngOnInit() {
     this.getFlavors();
@@ -38,6 +40,8 @@ export class CreateOrderComponent implements OnInit {
     console.log('Pizza size: ' + this.size)
     console.log('Pizza flavor: ' + this.flavor)
     console.log('Pizza stuffed edge: ' + this.hasStuffedEdge)
+
+    console.log('is input valid? ' + this.isInputValid())
   }
 
   getFlavors(): void {
@@ -47,4 +51,9 @@ export class CreateOrderComponent implements OnInit {
             this.flavorList = flavors
           );
   }
+
+  isInputValid(): boolean {
+    return this.validatorService.validatorService(this.customerName)
+  }
+
 }

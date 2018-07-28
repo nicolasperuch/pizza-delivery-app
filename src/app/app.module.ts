@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { PizzaStatusComponent } from './pizza-status/pizza-status.component';
 import { CreateOrderComponent } from './create-order/create-order.component';
 
-
 import { FlavorService } from './service/flavor.service';
+import { DataValidatorService } from './service/data-validator.service'
 
 
 @NgModule({
@@ -21,7 +21,8 @@ import { FlavorService } from './service/flavor.service';
     HttpClientModule
   ],
   providers: [
-    FlavorService
+    FlavorService,
+    DataValidatorService
   ],
   bootstrap: [AppComponent]
 })
