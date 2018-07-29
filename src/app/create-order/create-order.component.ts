@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import { FlavorService } from '../service/flavor.service';
 import { DataValidatorService } from '../service/data-validator.service';
+import { RequestHandlerService } from '../service/request-handler.service'
 
 @Component({
   selector: 'app-create-order',
@@ -9,6 +12,7 @@ import { DataValidatorService } from '../service/data-validator.service';
 })
 export class CreateOrderComponent implements OnInit {
 
+  ORDER_URL = 'http://localhost:8080/order'
   customerName = ''
   size = ''
   flavor = ''
@@ -16,7 +20,9 @@ export class CreateOrderComponent implements OnInit {
   flavorList: String[] = [];
 
   constructor(private flavorService: FlavorService,
-              private validatorService: DataValidatorService) { }
+              private validatorService: DataValidatorService,
+              private requestService: RequestHandlerService,
+              private http: HttpClient) { }
 
   ngOnInit() {
     this.getFlavors();
@@ -35,13 +41,9 @@ export class CreateOrderComponent implements OnInit {
   setHasStuffedEdge(event: any) {
     this.hasStuffedEdge = event.target.value;
   }  
-  sendRequest(){
-    console.log('customer name: ' + this.customerName)
-    console.log('Pizza size: ' + this.size)
-    console.log('Pizza flavor: ' + this.flavor)
-    console.log('Pizza stuffed edge: ' + this.hasStuffedEdge)
 
-    console.log('is input valid? ' + this.isInputValid())
+  isInputValid(): boolean {
+    return this.validatorService.validatorService(this.customerName)
   }
 
   getFlavors(): void {
@@ -52,8 +54,27 @@ export class CreateOrderComponent implements OnInit {
           );
   }
 
-  isInputValid(): boolean {
-    return this.validatorService.validatorService(this.customerName)
-  }
+  sendRequest(): void{
+    this.http.post(this.ORDER_URL, this.buildJson()
+      ).subscribe(
+        (val) => {
+            console.log("POST call successful value returned in body", 
+                        val);
+        },
+        response => {
+            console.log("POST call in error", response);
+        },
+        () => {
+            console.log("The POST observable is now completed.");
+        }
+    )
+  };
 
+  buildJson(): any{
+    return { "customerName": this.customerName,
+              "size": this.size,
+              "flavor": this.flavor,
+              "hasStuffedEdge": this.hasStuffedEdge
+    }
+  }
 }
