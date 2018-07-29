@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { FlavorService } from '../service/flavor.service';
 import { DataValidatorService } from '../service/data-validator.service';
-import { RequestHandlerService } from '../service/request-handler.service'
 
 @Component({
   selector: 'app-create-order',
@@ -21,7 +20,6 @@ export class CreateOrderComponent implements OnInit {
 
   constructor(private flavorService: FlavorService,
               private validatorService: DataValidatorService,
-              private requestService: RequestHandlerService,
               private http: HttpClient) { }
 
   ngOnInit() {
@@ -43,7 +41,7 @@ export class CreateOrderComponent implements OnInit {
   }  
 
   isInputValid(): boolean {
-    return this.validatorService.validatorService(this.customerName)
+    return !this.validatorService.isEmpty(this.customerName)
   }
 
   getFlavors(): void {
@@ -55,20 +53,25 @@ export class CreateOrderComponent implements OnInit {
   }
 
   sendRequest(): void{
-    this.http.post(this.ORDER_URL, this.buildJson()
-      ).subscribe(
-        (val) => {
-            console.log("POST call successful value returned in body", 
-                        val);
-        },
-        response => {
-            console.log("POST call in error", response);
-        },
-        () => {
-            console.log("The POST observable is now completed.");
-        }
-    )
+    if(this.isInputValid()) {
+      this.postOrder()
+    }
   };
+
+  postOrder(): void {
+    this.http.post(this.ORDER_URL, this.buildJson()
+    ).subscribe(
+      (val) => {
+          console.log("POST call successful value returned in body", val);
+      },
+      response => {
+          console.log("POST call in error", response);
+      },
+      () => {
+          console.log("The POST observable is now completed.");
+      }
+    )
+  }
 
   buildJson(): any{
     return { "customerName": this.customerName,

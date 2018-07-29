@@ -5,7 +5,7 @@ export class DataValidatorService {
 
   constructor() { }
 
-  validatorService(customerName): boolean {
-    return customerName != '';
+  isEmpty(customerName): boolean {
+    return customerName == '';
   }
 }
